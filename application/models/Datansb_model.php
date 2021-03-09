@@ -354,4 +354,20 @@ class Datansb_model extends CI_Model
     $this->db->where("tanggal", $tanggal);
     $this->db->update("laporan", $data);
   }
+	
+	function exceln()
+  {
+    $this->db->select('
+    akun.NAMA,
+    akun.ALAMAT,
+    ');
+    $this->db->select('SUM(IF(JENIS = "Setor", JUMLAH, 0)) - SUM(IF(JENIS = "Tarik", JUMLAH, 0)) as "SALDO"');
+    $this->db->from('akun');
+    $this->db->join('transaksi', 'transaksi.REKENING = akun.REKENING');
+    $this->db->group_by('NAMA');
+    $query = $this->db->get();
+    return $query->result();
+  }
+	
+	
 }
