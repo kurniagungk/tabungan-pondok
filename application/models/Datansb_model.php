@@ -127,7 +127,10 @@ class Datansb_model extends CI_Model
   function delete_single_user($REKENING)
   {
     $row = $this->db->where('REKENING', $REKENING)->get('akun')->row();
-    unlink('./upload/' . $row->GAMBAR);
+    $filename = './upload/' . $row->GAMBAR;
+    if (file_exists($filename)) {
+      unlink('./upload/' . $row->GAMBAR);
+    }
     $this->db->where("REKENING", $REKENING);
     $this->db->delete("akun");
     $this->db->where("REKENING", $REKENING);
@@ -354,8 +357,8 @@ class Datansb_model extends CI_Model
     $this->db->where("tanggal", $tanggal);
     $this->db->update("laporan", $data);
   }
-	
-	function exceln()
+
+  function exceln()
   {
     $this->db->select('
     akun.NAMA,
@@ -368,6 +371,56 @@ class Datansb_model extends CI_Model
     $query = $this->db->get();
     return $query->result();
   }
-	
-	
+
+  function getSetting($nama)
+  {
+    $this->db->where("nama", $nama);
+    $query = $this->db->get('setting');
+    return $query->result();
+  }
+
+  function biayaHistori()
+  {
+    $bulan = date("m");
+    $tahun = date("Y");
+    $this->db->where('MONTH(tanggal)', $bulan);
+    $this->db->where('YEAR(tanggal)', $tahun);
+    $query = $this->db->get('biaya');
+    return $query->result();
+  }
+
+  function getAllNasabah()
+  {
+    $this->db->select("*");
+    $this->db->from($this->table);
+    $query = $this->db->get();
+    return $query->result();
+  }
+
+  function getAllNasabahHapus()
+  {
+    $this->db->select("*");
+    $this->db->where('SALDO <=', 0);
+    $this->db->from($this->table);
+    $query = $this->db->get();
+    return $query->result();
+  }
+
+
+  function biaya($data)
+  {
+    $this->db->insert('biaya', $data);
+  }
+
+  function saveSetting($nama, $value)
+  {
+
+
+    $data = [
+      'isi' => $value
+    ];
+
+    $this->db->where("nama", $nama);
+    $this->db->update("setting", $data);
+  }
 }

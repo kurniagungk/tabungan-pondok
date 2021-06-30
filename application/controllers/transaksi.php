@@ -55,7 +55,7 @@ class transaksi extends CI_Controller
 				'KETERANGAN'         => $this->input->post("keterangan"),
 			);
 		}
-		if ($jenis == "tarik" && $jumlah <= $saldo && $saldo > 0) {
+		if ($jenis == "tarik" && $jumlah <= $saldo && $saldo > 5000) {
 			$user = array('SALDO' => $saldo - $jumlah);
 			$transaksi = array(
 				'TANGGAL'       =>  date("Y-m-d"),
