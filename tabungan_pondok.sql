@@ -119,6 +119,7 @@ CREATE TABLE IF NOT EXISTS `setting` (
 REPLACE INTO `setting` (`id`, `nama`, `isi`) VALUES
 (1, 'biaya_tanggal', '1'),
 (2, 'biaya_jumlah', '500');
+(3, 'saldo_minimal', '5000');
 
 -- --------------------------------------------------------
 

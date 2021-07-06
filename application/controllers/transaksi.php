@@ -55,7 +55,11 @@ class transaksi extends CI_Controller
 				'KETERANGAN'         => $this->input->post("keterangan"),
 			);
 		}
-		if ($jenis == "tarik" && $jumlah <= $saldo && $saldo > 5000) {
+
+
+		$saldo_minimal = $this->Datansb_model->getSetting('saldo_minimal')[0]->isi;
+
+		if ($jenis == "tarik" && $jumlah <= ($saldo - $saldo_minimal) && $saldo > $saldo_minimal) {
 			$user = array('SALDO' => $saldo - $jumlah);
 			$transaksi = array(
 				'TANGGAL'       =>  date("Y-m-d"),

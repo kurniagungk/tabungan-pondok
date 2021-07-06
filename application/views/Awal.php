@@ -314,7 +314,7 @@
   <div class="container box">
     <div class="row">
       <div class="col-sm-9">
-        <h1>Biaya admkin</h1>
+        <h1>Setting Aplikasi</h1>
       </div>
     </div>
     <br>
@@ -323,7 +323,7 @@
       <div class="row">
 
         <div class="col-sm-3">
-          <input type="text" readonly class="form-control-plaintext" value="tanggal">
+          <input type="text" readonly class="form-control-plaintext" value="Tanggal Pengambilan Biaya Admin">
         </div>
         <div class="col-sm-3">
           <input type="number" min="1" max="29" class="form-control" id="SettingTanggal">
@@ -332,10 +332,19 @@
       <br>
       <div class="row">
         <div class="col-sm-3">
-          <input type="text" readonly class="form-control-plaintext" value="jumlah">
+          <input type="text" readonly class="form-control-plaintext" value="Biaya Admin Per Bulan">
         </div>
         <div class="col-sm-3">
           <input type="number" class="form-control" id="SettingJumlah">
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-sm-3">
+          <input type="text" readonly class="form-control-plaintext" value="Saldo Minimal">
+        </div>
+        <div class="col-sm-3">
+          <input type="number" class="form-control" id="SettingSaldo">
         </div>
       </div>
       <br>
@@ -517,8 +526,7 @@
 
 
 <script type="text/javascript">
-  $(document).ready(function() {
-
+  function get_data() {
     $.ajax({
       url: '<?php echo base_url() . 'awal/jurnal' ?>',
       dataType: "json",
@@ -537,33 +545,23 @@
 
         $("#SettingJumlah").val(data.jumlah);
         $("#SettingTanggal").val(data.tanggal);
+        $("#SettingSaldo").val(data.saldo);
 
 
       }
     });
+  }
+
+
+
+
+  $(document).ready(function() {
+
+    get_data();
 
     setInterval(function() {
-      $.ajax({
-        url: '<?php echo base_url() . 'awal/jurnal' ?>',
-        method: "post",
-        dataType: "json",
-        success: function(data) {
-          $('#juser').val(data.jnsb);
-          $('#jsaldou').val(data.jsaldo);
-          $('#jtarik').val(data.jtarik);
-          $('#jsetor').val(data.jsetor);
-          $('#rsetor').val(data.jsetor);
-          $("#rtarik").val(data.jtarik);
-          $('#asaldo').val(data.asaldo);
-          $('#tambahs').val(data.tambahs);
-          $("#totalr").val(data.rekap);
-          $("#uangyada").val(data.uyada);
 
-
-
-        }
-      });
-
+      data();
 
 
     }, 30000);
@@ -705,6 +703,7 @@
 
       let jumlah = $("#SettingJumlah").val();
       let tanggal = $("#SettingTanggal").val();
+      let saldo = $("#SettingSaldo").val();
 
 
 
@@ -714,33 +713,15 @@
         data: {
           tanggal: tanggal,
           jumlah: jumlah,
+          saldo: saldo,
         },
         success: function() {
           $('#action').val('');
           $('#uangya').val('');
           alert('berhasil');
           $('#myModal1').modal('hide');
-          $.ajax({
-            url: '<?php echo base_url() . 'awal/jurnal' ?>',
-            dataType: "json",
-            success: function(data) {
 
-              $('#juser').val(data.jnsb);
-              $('#jsaldou').val(data.jsaldo);
-              $('#jtarik').val(data.jtarik);
-              $('#jsetor').val(data.jsetor);
-              $('#rsetor').val(data.jsetor);
-              $("#rtarik").val(data.jtarik);
-              //      $('#asaldo').val(data.asaldo);
-              //       $('#tambahs').val(data.tambahs);
-              //     $("#totalr").val(data.rekap);
-              //      $("#uangyada").val(data.uyada);
-
-
-              $("#SettingJumlah").val(data.jumlah);
-              $("#SettingTanggal").val(data.tanggal);
-            }
-          });
+          get_data();
 
         }
       });

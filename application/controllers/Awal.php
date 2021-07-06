@@ -34,6 +34,7 @@ class Awal extends CI_Controller
 		$cek = $this->Datansb_model->cekrekap();
 		$biaya_tanggal = $this->Datansb_model->getSetting('biaya_tanggal');
 		$biaya_jumlah = $this->Datansb_model->getSetting('biaya_jumlah');
+		$saldo_minimal = $this->Datansb_model->getSetting('saldo_minimal');
 
 		/*
 
@@ -79,9 +80,6 @@ class Awal extends CI_Controller
 
 
 
-
-
-
 		$output = array(
 			'jnsb' 			=> $jnsb,
 			'jsaldo'		=> 'Rp ' . number_format("$tsaldo", 2, ",", "."),
@@ -92,7 +90,8 @@ class Awal extends CI_Controller
 			//	'uyada'			=> 'Rp ' . number_format("$uyada", 2, ",", "."),
 			//		'rekap'			=> 'Rp ' . number_format("$rekap", 2, ",", "."),
 			'tanggal'			=> $biaya_tanggal[0]->isi,
-			'jumlah'			=> $biaya_jumlah[0]->isi
+			'jumlah'			=> $biaya_jumlah[0]->isi,
+			'saldo'			=> $saldo_minimal[0]->isi,
 
 		);
 		echo json_encode($output);
@@ -214,8 +213,12 @@ class Awal extends CI_Controller
 	{
 		$tanggal = $this->input->post("tanggal");
 		$jumlah = $this->input->post("jumlah");
+		$saldo = $this->input->post("saldo");
+
+		var_dump($saldo);
 
 		$this->Datansb_model->saveSetting("biaya_tanggal", $tanggal);
 		$this->Datansb_model->saveSetting("biaya_jumlah", $jumlah);
+		$this->Datansb_model->saveSetting("saldo_minimal", $saldo);
 	}
 }
