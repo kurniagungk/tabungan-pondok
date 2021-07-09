@@ -290,18 +290,30 @@ class Awal extends CI_Controller
 
 
 		$tsaldo = $this->Datansb_model->tsaldon();
+		$tnasabah = $this->Datansb_model->tbiayanasabah($pecah[0], $pecah[1]);
 		$tbiaya = $this->Datansb_model->tbiaya($pecah[0], $pecah[1]);
 
-
-		$excel->setActiveSheetIndex(0)->setCellValue('A3', "Total Saldo Nasabah"); // Set kolom A3 dengan tulisan "NO"
-		$excel->setActiveSheetIndex(0)->setCellValue('B3', $tsaldo); // Set kolom B3 dengan tulisan "NIS"
-		$excel->setActiveSheetIndex(0)->setCellValue('A4', "BIAYA ADMIN"); // Set kolom C3 dengan tulisan "NAMA"
-		$excel->setActiveSheetIndex(0)->setCellValue('B4', $tbiaya); // Set kolom D3 dengan tulisan "JENIS KELAMIN"
+		$excel->setActiveSheetIndex(0)->setCellValue('A3', "Tanggal Cetak"); // Set kolom A3 dengan tulisan "NO"
+		$excel->setActiveSheetIndex(0)->setCellValue('B3', date("d-m-Y H:i:s"));
+		$excel->setActiveSheetIndex(0)->setCellValue('A4', "Total Saldo Awal"); // Set kolom A3 dengan tulisan "NO"
+		$excel->setActiveSheetIndex(0)->setCellValue('B4', $tsaldo);
+		$excel->setActiveSheetIndex(0)->setCellValue('A5', "Jumlah Nasabah"); // Set kolom A3 dengan tulisan "NO"
+		$excel->setActiveSheetIndex(0)->setCellValue('B5', $tnasabah); // Set kolom B3 dengan tulisan "NIS"
+		$excel->setActiveSheetIndex(0)->setCellValue('A6', "BIAYA ADMIN"); // Set kolom C3 dengan tulisan "NAMA"
+		$excel->setActiveSheetIndex(0)->setCellValue('B6', $tbiaya); // Set kolom D3 dengan tulisan "JENIS KELAMIN"
+		$excel->setActiveSheetIndex(0)->setCellValue('A7', "Total Saldo Akhir"); // Set kolom C3 dengan tulisan "NAMA"
+		$excel->setActiveSheetIndex(0)->setCellValue('B7', ($tbiaya + $tsaldo)); // Set kolom D3 dengan tulisan "JENIS KELAMIN"
 		// Apply style header yang telah kita buat tadi ke masing-masing kolom header
 		$excel->getActiveSheet()->getStyle('A3')->applyFromArray($style_col);
-		$excel->getActiveSheet()->getStyle('B3')->applyFromArray($style_col)->getNumberFormat()->setFormatCode('"Rp " ###0,00_-');
-		$excel->getActiveSheet()->getStyle('A4')->applyFromArray($style_col);
+		$excel->getActiveSheet()->getStyle('B3')->applyFromArray($style_col);
 		$excel->getActiveSheet()->getStyle('B4')->applyFromArray($style_col)->getNumberFormat()->setFormatCode('"RP " ###0,00_-');
+		$excel->getActiveSheet()->getStyle('A4')->applyFromArray($style_col);
+		$excel->getActiveSheet()->getStyle('A5')->applyFromArray($style_col);
+		$excel->getActiveSheet()->getStyle('B5')->applyFromArray($style_col);
+		$excel->getActiveSheet()->getStyle('A6')->applyFromArray($style_col);
+		$excel->getActiveSheet()->getStyle('B6')->applyFromArray($style_col)->getNumberFormat()->setFormatCode('"RP " ###0,00_-');
+		$excel->getActiveSheet()->getStyle('A7')->applyFromArray($style_col);
+		$excel->getActiveSheet()->getStyle('B7')->applyFromArray($style_col)->getNumberFormat()->setFormatCode('"RP " ###0,00_-');
 
 		// Panggil function view yang ada di SiswaModel untuk menampilkan semua data siswanya
 
