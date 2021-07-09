@@ -186,13 +186,17 @@ class Datansb extends CI_Controller
      }
 
 
-
      function excel()
      {
-          $data = $this->Datansb_model->exceln();
-          include APPPATH . 'third_party\PHPExcel-1.8\Classes\PHPExcel.php';
 
-          $excel = new PHPExcel();
+
+
+          $data = $this->Datansb_model->exceln();
+
+
+          include APPPATH . 'third_party\PHPExcel.php';
+
+          $excel =  new PHPExcel();
 
           $excel->getProperties()->setCreator('Data Nasaba Tabungan')
                ->setLastModifiedBy('Data Nasaba Tabungan')
@@ -284,10 +288,12 @@ class Datansb extends CI_Controller
           $excel->getActiveSheet(0)->setTitle("Data Nasabah tabungan Alkahfi");
           $excel->setActiveSheetIndex(0);
           // Proses file excel
+
+          $objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
           header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
           header('Content-Disposition: attachment; filename="DATA NASABAH.xlsx"'); // Set nama file excel nya
           header('Cache-Control: max-age=0');
-          $write = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
-          $write->save('php://output');
+          $objWriter->save('php://output');
+          exit;
      }
 }

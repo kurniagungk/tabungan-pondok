@@ -362,6 +362,41 @@
 
   </div>
 
+  <div class="container box">
+    <div class="row">
+      <div class="col-sm-9">
+        <h1>Laporan</h1>
+      </div>
+    </div>
+    <br>
+    <br>
+    <form method="post" id="laporan">
+      <div class="row">
+
+        <div class="col-sm-3">
+          <input type="text" readonly class="form-control-plaintext" value="Bulan" required>
+        </div>
+        <div class="col-sm-3">
+          <input type="month" min="1" max="29" class="form-control" id="bulan">
+        </div>
+      </div>
+      <br>
+
+      <div class="row">
+        <div class="col-sm-2">
+
+        </div>
+        <div class="col-sm-3">
+          <button type="submit" class="btn btn-primary btn-lg btn-block">Save</button>
+        </div>
+        <div class="col-sm-2">
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+
   <!-- Write your comments here 
 
   <div class="container box">
@@ -731,7 +766,38 @@
     });
 
 
+    $(document).on('submit', '#laporan', function(event) {
 
+      event.preventDefault();
+
+      let bulan = $("#bulan").val();
+
+
+
+
+      $.ajax({
+        url: '<?php echo base_url() . 'awal/laporan' ?>',
+        method: "post",
+        data: {
+          bulan: bulan,
+        },
+        success: function(response) {
+          if (response == 'error') {
+            alert('harap masukan bulan')
+          } else {
+            window.open(response);
+          }
+
+
+
+
+
+        }
+      });
+
+
+
+    });
 
 
 

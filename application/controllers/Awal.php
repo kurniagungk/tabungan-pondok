@@ -221,4 +221,116 @@ class Awal extends CI_Controller
 		$this->Datansb_model->saveSetting("biaya_jumlah", $jumlah);
 		$this->Datansb_model->saveSetting("saldo_minimal", $saldo);
 	}
+
+	function laporan()
+	{
+		$tanggal =  $this->input->post("bulan");
+		if ($tanggal)
+			$data = base_url() . 'awal/excel?bulan=' . $tanggal;
+		else
+			$data = 'error';
+
+		echo $data;
+	}
+
+
+	function excel()
+	{
+
+		$bulan =  $this->input->get("bulan");
+		$pecah = explode("-", $bulan);
+
+		$data = $this->Datansb_model->exceln();
+		include APPPATH . 'third_party\PHPExcel.php';
+
+		$excel = new PHPExcel();
+
+		$excel->getProperties()->setCreator('Data Nasaba Tabungan')
+			->setLastModifiedBy('Data Nasaba Tabungan')
+			->setTitle("Data Nasaba Tabungan")
+			->setSubject("Nasabah")
+			->setDescription("Data Nasaba Tabungan")
+			->setKeywords("Data Nasabah");
+
+		$style_col = array(
+			'font' => array('bold' => true), // Set font nya jadi bold
+			'alignment' => array(
+				'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER, // Set text jadi ditengah secara horizontal (center)
+				'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+			),
+			'borders' => array(
+				'top' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border top dengan garis tipis
+				'right' => array('style'  => PHPExcel_Style_Border::BORDER_THIN),  // Set border right dengan garis tipis
+				'bottom' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border bottom dengan garis tipis
+				'left' => array('style'  => PHPExcel_Style_Border::BORDER_THIN) // Set border left dengan garis tipis
+			)
+		);
+
+
+		$style_row = array(
+			'alignment' => array(
+				'vertical' => PHPExcel_Style_Alignment::VERTICAL_CENTER // Set text jadi di tengah secara vertical (middle)
+			),
+			'borders' => array(
+				'top' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border top dengan garis tipis
+				'right' => array('style'  => PHPExcel_Style_Border::BORDER_THIN),  // Set border right dengan garis tipis
+				'bottom' => array('style'  => PHPExcel_Style_Border::BORDER_THIN), // Set border bottom dengan garis tipis
+				'left' => array('style'  => PHPExcel_Style_Border::BORDER_THIN) // Set border left dengan garis tipis
+			)
+		);
+
+
+		$excel->setActiveSheetIndex(0)->setCellValue('A1', "LAPORAN TABUNGAN AL-KAHFI " . $bulan); // Set kolom A1 dengan tulisan "DATA SISWA"
+		$excel->getActiveSheet()->mergeCells('A1:C1'); // Set Merge Cell pada kolom A1 sampai E1
+		$excel->getActiveSheet()->getStyle('A1')->getFont()->setBold(TRUE); // Set bold kolom A1
+		$excel->getActiveSheet()->getStyle('A1')->getFont()->setSize(15); // Set font size 15 untuk kolom A1
+		$excel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER); // Set text center untuk kolom A1
+		// Buat header tabel nya pada baris ke 3
+
+
+
+		$tsaldo = $this->Datansb_model->tsaldon();
+		$tbiaya = $this->Datansb_model->tbiaya($pecah[0], $pecah[1]);
+
+
+		$excel->setActiveSheetIndex(0)->setCellValue('A3', "Total Saldo Nasabah"); // Set kolom A3 dengan tulisan "NO"
+		$excel->setActiveSheetIndex(0)->setCellValue('B3', $tsaldo); // Set kolom B3 dengan tulisan "NIS"
+		$excel->setActiveSheetIndex(0)->setCellValue('A4', "BIAYA ADMIN"); // Set kolom C3 dengan tulisan "NAMA"
+		$excel->setActiveSheetIndex(0)->setCellValue('B4', $tbiaya); // Set kolom D3 dengan tulisan "JENIS KELAMIN"
+		// Apply style header yang telah kita buat tadi ke masing-masing kolom header
+		$excel->getActiveSheet()->getStyle('A3')->applyFromArray($style_col);
+		$excel->getActiveSheet()->getStyle('B3')->applyFromArray($style_col)->getNumberFormat()->setFormatCode('"Rp " ###0,00_-');
+		$excel->getActiveSheet()->getStyle('A4')->applyFromArray($style_col);
+		$excel->getActiveSheet()->getStyle('B4')->applyFromArray($style_col)->getNumberFormat()->setFormatCode('"RP " ###0,00_-');
+
+		// Panggil function view yang ada di SiswaModel untuk menampilkan semua data siswanya
+
+
+
+
+
+		$excel->getActiveSheet()->getColumnDimension('A')->setWidth(30); // Set width kolom A
+		$excel->getActiveSheet()->getColumnDimension('B')->setWidth(30); // Set width kolom B
+
+
+		// Set height semua kolom menjadi auto (mengikuti height isi dari kolommnya, jadi otomatis)
+		$excel->getActiveSheet()->getDefaultRowDimension()->setRowHeight(-1);
+		// Set orientasi kertas jadi LANDSCAPE
+		$excel->getActiveSheet()->getPageSetup()->setOrientation(PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
+		// Set judul file excel nya
+		$excel->getActiveSheet(0)->setTitle("Data Nasabah tabungan Alkahfi");
+		$excel->setActiveSheetIndex(0);
+		// Proses file excel
+		header('Content-Type:application/vnd.ms-excel');
+		header('Content-Disposition: attachment; filename="LAPORAN "' . $bulan . '".xlsx"'); // Set nama file excel nya
+		header('Cache-Control: max-age=0');
+		header("Pragma: public");
+		header("Expires: 0");
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+		header("Content-Type: application/force-download");
+		header("Content-Type: application/octet-stream");
+		header("Content-Type: application/download");
+		$write = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+		$write->save('php://output');
+	}
 }

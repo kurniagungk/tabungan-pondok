@@ -361,13 +361,14 @@ class Datansb_model extends CI_Model
   function exceln()
   {
     $this->db->select('
-    akun.NAMA,
-    akun.ALAMAT,
+    akun.REKENING,
+    NAMA,
+    ALAMAT,
     ');
     $this->db->select('SUM(IF(JENIS = "Setor", JUMLAH, 0)) - SUM(IF(JENIS = "Tarik", JUMLAH, 0)) as "SALDO"');
     $this->db->from('akun');
     $this->db->join('transaksi', 'transaksi.REKENING = akun.REKENING');
-    $this->db->group_by('NAMA');
+    $this->db->group_by('akun.REKENING');
     $query = $this->db->get();
     return $query->result();
   }
@@ -422,5 +423,14 @@ class Datansb_model extends CI_Model
 
     $this->db->where("nama", $nama);
     $this->db->update("setting", $data);
+  }
+
+  function tbiaya($tahun, $bulan)
+  {
+    $this->db->select("SUM(JUMLAH) as biaya");
+    $this->db->where('MONTH(TANGGAL)', $bulan);
+    $this->db->where('YEAR(TANGGAL)', $tahun);
+    $query = $this->db->get("biaya")->row_array();
+    return $query['biaya'];
   }
 }
