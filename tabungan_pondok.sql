@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 30, 2021 at 09:03 PM
+-- Generation Time: Jul 16, 2021 at 10:58 AM
 -- Server version: 5.7.24
--- PHP Version: 7.4.20
+-- PHP Version: 8.0.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,17 +32,11 @@ CREATE TABLE IF NOT EXISTS `admin` (
   `username` varchar(250) NOT NULL,
   `password` varchar(250) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `admin`
---
-
-REPLACE INTO `admin` (`id`, `username`, `password`) VALUES
-(1, 'asd', 'asd');
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
-
+REPLACE INTO `admin` (`id`, `username`, `password`) VALUES
+(1, 'asd', 'asd');
 --
 -- Table structure for table `akun`
 --
@@ -64,9 +58,12 @@ CREATE TABLE IF NOT EXISTS `akun` (
 --
 
 CREATE TABLE IF NOT EXISTS `biaya` (
-  `id` int(11) NOT NULL,
-  `tanggal` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tanggal` date NOT NULL,
+  `jumlah` bigint(20) NOT NULL,
+  `santri` bigint(20) NOT NULL,
+  UNIQUE KEY `santri` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -80,7 +77,7 @@ CREATE TABLE IF NOT EXISTS `jurnal` (
   `jumlah` int(11) NOT NULL,
   `keterangan` varchar(200) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -98,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `laporan` (
   `uang-yang-ada` int(11) NOT NULL,
   `total` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=193 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
 
@@ -117,9 +114,9 @@ CREATE TABLE IF NOT EXISTS `setting` (
 --
 
 REPLACE INTO `setting` (`id`, `nama`, `isi`) VALUES
-(1, 'biaya_tanggal', '1'),
-(2, 'biaya_jumlah', '500');
-(3, 'saldo_minimal', '5000');
+(1, 'biaya_tanggal', '9'),
+(2, 'biaya_jumlah', '500'),
+(3, 'saldo_minimal', '10000');
 
 -- --------------------------------------------------------
 

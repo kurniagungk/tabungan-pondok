@@ -427,19 +427,9 @@ class Datansb_model extends CI_Model
 
   function tbiaya($tahun, $bulan)
   {
-    $this->db->select("SUM(JUMLAH) as biaya");
+    $this->db->select("*");
     $this->db->where('MONTH(TANGGAL)', $bulan);
     $this->db->where('YEAR(TANGGAL)', $tahun);
-    $query = $this->db->get("biaya")->row_array();
-    return $query['biaya'];
-  }
-  function tbiayanasabah($tahun, $bulan)
-  {
-    $this->db->select("count(IDTR) as jumlah");
-    $this->db->where('KETERANGAN =', "Biaya Admin");
-    $this->db->where('MONTH(TANGGAL)', $bulan);
-    $this->db->where('YEAR(TANGGAL)', $tahun);
-    $query = $this->db->get("transaksi")->row_array();
-    return $query['jumlah'];
+    return $query = $this->db->get("biaya")->row_array();
   }
 }

@@ -215,7 +215,6 @@ class Awal extends CI_Controller
 		$jumlah = $this->input->post("jumlah");
 		$saldo = $this->input->post("saldo");
 
-		var_dump($saldo);
 
 		$this->Datansb_model->saveSetting("biaya_tanggal", $tanggal);
 		$this->Datansb_model->saveSetting("biaya_jumlah", $jumlah);
@@ -290,19 +289,19 @@ class Awal extends CI_Controller
 
 
 		$tsaldo = $this->Datansb_model->tsaldon();
-		$tnasabah = $this->Datansb_model->tbiayanasabah($pecah[0], $pecah[1]);
-		$tbiaya = $this->Datansb_model->tbiaya($pecah[0], $pecah[1]);
+		$biaya = $this->Datansb_model->tbiaya($pecah[0], $pecah[1]);
+
 
 		$excel->setActiveSheetIndex(0)->setCellValue('A3', "Tanggal Cetak"); // Set kolom A3 dengan tulisan "NO"
 		$excel->setActiveSheetIndex(0)->setCellValue('B3', date("d-m-Y H:i:s"));
 		$excel->setActiveSheetIndex(0)->setCellValue('A4', "Total Saldo Awal"); // Set kolom A3 dengan tulisan "NO"
 		$excel->setActiveSheetIndex(0)->setCellValue('B4', $tsaldo);
 		$excel->setActiveSheetIndex(0)->setCellValue('A5', "Jumlah Nasabah"); // Set kolom A3 dengan tulisan "NO"
-		$excel->setActiveSheetIndex(0)->setCellValue('B5', $tnasabah); // Set kolom B3 dengan tulisan "NIS"
+		$excel->setActiveSheetIndex(0)->setCellValue('B5', $biaya['santri']); // Set kolom B3 dengan tulisan "NIS"
 		$excel->setActiveSheetIndex(0)->setCellValue('A6', "BIAYA ADMIN"); // Set kolom C3 dengan tulisan "NAMA"
-		$excel->setActiveSheetIndex(0)->setCellValue('B6', $tbiaya); // Set kolom D3 dengan tulisan "JENIS KELAMIN"
+		$excel->setActiveSheetIndex(0)->setCellValue('B6', $biaya['jumlah']); // Set kolom D3 dengan tulisan "JENIS KELAMIN"
 		$excel->setActiveSheetIndex(0)->setCellValue('A7', "Total Saldo Akhir"); // Set kolom C3 dengan tulisan "NAMA"
-		$excel->setActiveSheetIndex(0)->setCellValue('B7', ($tbiaya + $tsaldo)); // Set kolom D3 dengan tulisan "JENIS KELAMIN"
+		$excel->setActiveSheetIndex(0)->setCellValue('B7', ($biaya['jumlah'] + $tsaldo)); // Set kolom D3 dengan tulisan "JENIS KELAMIN"
 		// Apply style header yang telah kita buat tadi ke masing-masing kolom header
 		$excel->getActiveSheet()->getStyle('A3')->applyFromArray($style_col);
 		$excel->getActiveSheet()->getStyle('B3')->applyFromArray($style_col);

@@ -68,7 +68,7 @@ class Biaya extends CI_Controller
                         $this->Datansb_model->insert_tr($transaksi);
                         $user = array('SALDO' => $data->SALDO - $biaya_jumlah[0]->isi);
                         $this->Datansb_model->update_crud($data->REKENING, $user);
-                        $biaya +=  $biaya_jumlah[0]->isi;
+                        $biaya++;
                     }
                 }
 
@@ -80,7 +80,8 @@ class Biaya extends CI_Controller
 
                     $insert_data = array(
                         'tanggal'          =>     date("Y-m-d"),
-                        'jumlah'          =>    $biaya,
+                        'jumlah'          =>    $biaya * $biaya_jumlah[0]->isi,
+                        'santri'          =>    $biaya,
                     );
 
                     $this->Datansb_model->biaya($insert_data);
