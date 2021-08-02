@@ -118,7 +118,7 @@
     <div class="row">
       <div class="col-sm head">
         <span>
-          <a href="http://localhost/tabungan_pondok">
+          <a href="<?php echo base_url() ?>">
             <img src="<?php echo base_url() ?>upload/icon/home.png" width="64px" class="rounded mx-auto d-block" alt="...">
             <h3>HOME</h3>
           </a>
