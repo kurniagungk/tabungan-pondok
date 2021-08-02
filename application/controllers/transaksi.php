@@ -48,7 +48,7 @@ class transaksi extends CI_Controller
 			$user = array('SALDO' => $jumlah + $saldo);
 			$transaksi = array(
 				'TANGGAL'       =>  date("Y-m-d"),
-				'IDTR' 			=> $this->input->post("idtr"),
+				'IDTR' 			=> $this->Datansb_model->idtr(),
 				'JUMLAH' 		=> $jumlah,
 				'JENIS'            => "Setor",
 				'REKENING'         => $this->input->post("rekening"),
@@ -63,7 +63,7 @@ class transaksi extends CI_Controller
 			$user = array('SALDO' => $saldo - $jumlah);
 			$transaksi = array(
 				'TANGGAL'       =>  date("Y-m-d"),
-				'IDTR' 			=> $this->input->post("idtr"),
+				'IDTR' 			=> $this->Datansb_model->idtr(),
 				'JUMLAH' 		=> $jumlah,
 				'JENIS'            => "Tarik",
 				'REKENING'         => $this->input->post("rekening"),

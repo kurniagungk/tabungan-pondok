@@ -119,7 +119,7 @@
       <div class="col-sm head">
         <span>
           <a href="http://localhost/tabungan_pondok">
-            <img src="http://localhost/tabungan_pondok/upload/icon/home.png" width="64px" class="rounded mx-auto d-block" alt="...">
+            <img src="<?php echo base_url() ?>upload/icon/home.png" width="64px" class="rounded mx-auto d-block" alt="...">
             <h3>HOME</h3>
           </a>
 
@@ -127,8 +127,8 @@
       </div>
       <div class="col-sm head">
         <span>
-          <a href="http://localhost/tabungan_pondok/datansb">
-            <img src="http://localhost/tabungan_pondok/upload/icon/data.png" width="64px" class="rounded mx-auto d-block" alt="...">
+          <a href="<?php echo base_url() ?>datansb">
+            <img src="<?php echo base_url() ?>upload/icon/data.png" width="64px" class="rounded mx-auto d-block" alt="...">
             <h3>DATA NASABAH</h3>
           </a>
 
@@ -138,8 +138,8 @@
       </div>
       <div class="col-sm head">
         <span>
-          <a href="http://localhost/tabungan_pondok/transaksi">
-            <img src="http://localhost/tabungan_pondok/upload/icon/transaksi.png" width="64px" class="rounded mx-auto d-block" alt="...">
+          <a href="<?php echo base_url() ?>transaksi">
+            <img src="<?php echo base_url() ?>upload/icon/transaksi.png" width="64px" class="rounded mx-auto d-block" alt="...">
             <h3>TRANSAKSI</h3>
           </a>
 
@@ -150,8 +150,8 @@
       <div class="col-sm head">
         <div class="col-sm">
           <span>
-            <a href="http://localhost/tabungan_pondok/laporan">
-              <img src="http://localhost/tabungan_pondok/upload/icon/laporan.png" width="64px" class="rounded mx-auto d-block" alt="...">
+            <a href="<?php echo base_url() ?>laporan">
+              <img src="<?php echo base_url() ?>upload/icon/laporan.png" width="64px" class="rounded mx-auto d-block" alt="...">
               <h3>LAPORAN</h3>
             </a>
 
@@ -165,8 +165,8 @@
       <div class="col-sm head">
         <div class="col-sm">
           <span>
-            <a href="http://localhost/tabungan_pondok/login/logout">
-              <img src="http://localhost/tabungan_pondok/upload/icon/logout.png" width="64px" class="rounded mx-auto d-block" alt="...">
+            <a href="<?php echo base_url() ?>login/logout">
+              <img src="<?php echo base_url() ?>upload/icon/logout.png" width="64px" class="rounded mx-auto d-block" alt="...">
               <h3>logout</h3>
             </a>
 
@@ -208,7 +208,7 @@
       <div class="col head" border="1">
         <div style="overflow: auto; margin: auto; padding: 3px; background-color: none; text-align: left;">
           <h3>TRANSAKSI</h3>
-          <span class="border-0" id="gambarnsb"><img id="gbnsb" src="http://localhost/tabungan_pondok/upload/profil.png" alt="..." class="img-thumbnail"></span>
+          <span class="border-0" id="gambarnsb"><img id="gbnsb" src="<?php echo base_url() ?>upload/profil.png" alt="..." class="img-thumbnail"></span>
 
         </div>
         <br>
@@ -474,7 +474,7 @@
             $("#ksetor").hide();
             $("#ctarik").val("");
             $("#ctarik").focus();
-            $("#gambarnsb").html('<img id="gbnsb" src="http://localhost/tabungan_pondok/upload/profil.png" alt="..." class="img-thumbnail" >');
+            $("#gambarnsb").html('<img id="gbnsb" src="<?php echo base_url() ?>upload/profil.png" alt="..." class="img-thumbnail" >');
             setTimeout(function() {
               $('.box2').hide();
             }, 2000);
@@ -493,7 +493,7 @@
             $("#ksetor").show();
             $("#csetor").val("");
             $("#csetor").focus();
-            $("#gambarnsb").html('<img id="gbnsb" src="http://localhost/tabungan_pondok/upload/profil.png" alt="..." class="img-thumbnail" >');
+            $("#gambarnsb").html('<img id="gbnsb" src="<?php echo base_url() ?>upload/profil.png" alt="..." class="img-thumbnail" >');
             setTimeout(function() {
               $('.box2').hide();
             }, 2000);
